@@ -14,43 +14,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
 
-	@Autowired
+	@Autowired // responsavel por executar comandos previamente disponiveis do repositorio
 	private ServicoRepository repository;
 
-	@GetMapping("/servico")
-	public List<ServicoModel> pegarTodos() {
+	@GetMapping("/servicos")
+	public List<ServicoModel> buscarTodos() {
+
 		return repository.findAll();
 	}
 
-	@PostMapping("/servico")
-	public ServicoModel criar (@RequestBody ServicoModel model) {
+	@PostMapping("/servicos")
+	public ServicoModel criar(@RequestBody ServicoModel model) {
 		repository.save(model);
 		return model;
-		
 	}
 
-	@GetMapping("/servico/nome/{nome}")
-	public List<ServicoModel> buscaPorNome(@PathVariable String nome) {
+	@GetMapping("/servicos/nome/{nome}")
+	public List<ServicoModel> findNome(@PathVariable String nome) {
 		return repository.findByNome(nome);
-		
 	}
-	
-	@PutMapping("/servico/{id}")
+
+	@PutMapping("/servicos/{id}")
 	public ServicoModel atualizar(@PathVariable Long id, @RequestBody ServicoModel model) {
 		model.setId(id);
 		repository.save(model);
 		return model;
-
-		
 	}
 
-	@DeleteMapping("/servico/home/{id}")
-	public String remover (@PathVariable Long id) {
+	@DeleteMapping("/{id}")
+	public void Delete(@PathVariable long id) {
 		repository.deleteById(id);
-		return "sucesso";
 	}
-
-
 
 }
-
